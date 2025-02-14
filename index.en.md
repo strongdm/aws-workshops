@@ -3,7 +3,7 @@ title : "StrongDM Walkthrough"
 weight : 40
 ---
 
-![StrongDM Logo](/static/strongdm_logo.png)
+![StrongDM Logo](./static/strongdm_logo.png)
 # Getting Started with StrongDM
 
 ## Requirements
@@ -33,19 +33,19 @@ ___
 
    Create a role that is unique to you, under Principals -> Roles, and assign the role to yourself be selecting "Actions" for your Username in Principals -> Users -> <Username> -> Actions -> Set Roles.
 
-   ![StrongDM Admin UI](/static/strongdm_admin_ui.png)
+   ![StrongDM Admin UI](./static/strongdm_admin_ui.png)
 
 2) Download the StrongDM Desktop app
 
    On the bottom left, click on "Download & Install" and download the StrongDM Desktop app specific to your desktop client. macOS and Windows platforms have GUI and CLI apps, Linux is CLI only. Install the Desktop App and login with the same credentials as the Admin UI.
 
-   ![StrongDM Download](/static/strongdm_download.png)
+   ![StrongDM Download](./static/strongdm_download.png)
 
 3) Using StrongDM Gateways
 
    StrongDM Gateways will already be installed in your AWS account, with the appropriate port (TCP/5000) configured in the EC2 Security Group. When creating resources in StrongDM, you will associate to these gateways.
 
-   ![StrongDM Gateways](/static/strongdm_gateways.png)
+   ![StrongDM Gateways](./static/strongdm_gateways.png)
 
 4) Set up an EC2 Linux Instance
 
@@ -55,8 +55,8 @@ ___
    
    After setting up the resource, confirm that the resource status is "Healthy".
 
-   ![Linux EC2 Instance](/static/aws_ec2_linux_instance.png)
-   ![StrongDM SSH Resource](/static/strongdm_ssh_resource.png)
+   ![Linux EC2 Instance](./static/aws_ec2_linux_instance.png)
+   ![StrongDM SSH Resource](./static/strongdm_ssh_resource.png)
 
 5) Set up an RDS PostgreSQL Database
 
@@ -66,8 +66,8 @@ ___
    
    Download and install a SQL client of choice onto your desktop. Recommended is Beekeeper Studio Community Edition or DBEaver.
 
-   ![StrongDM PostgreSQL Resource](/static/strongdm_postgres_resource.png)
-   ![Beekeeper Studio](/static/beekeeper_studio.png)
+   ![StrongDM PostgreSQL Resource](./static/strongdm_postgres_resource.png)
+   ![Beekeeper Studio](./static/beekeeper_studio.png)
 
 6) Grant Temporary Access the Resource
 
@@ -75,8 +75,8 @@ ___
    
    Once granted, you will see the resources in the StrongDM Desktop app. Click on "Connect". Test connectivity to those resources using the clients of choice: SSH CLI or GUI client; SQL CLI or GUI client. When connecting, use `localhost` and the StrongDM dynamically generated port number. No username or password will be used.
 
-   ![Grant Access](/static/strongdm_grant_acccess.png)
-   ![StrongDM Client](/static/strongdm_client.png)
+   ![Grant Access](./static/strongdm_grant_access.png)
+   ![StrongDM Client](./static/strongdm_client.png)
 
 7) [**OPTIONAL**]Create Policies
 
@@ -86,13 +86,13 @@ ___
 
    Use the Policy Monitor to view and evaluate user actions within StrongDM. It provides a detailed breakdown of allowed and denied actions, helping ensure compliance with security policies.
 
-   ![Policy Monitor](/static/PolicyMonitor.png)
+   ![Policy Monitor](./static/PolicyMonitor.png)
 
 9) Explore logs for auditing and troubleshooting.
 
    StrongDM maintains detailed logs of all user actions, making it easy to audit and troubleshoot any issues. Access the logs section from the dashboard and filter results by user, resource, or action.
 
-   ![Logs Overview](/static/Logs.png)
+   ![Logs Overview](./static/Logs.png)
 
 
 # Destroying the Configuration
