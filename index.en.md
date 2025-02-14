@@ -3,6 +3,7 @@ title : "StrongDM Walkthrough"
 weight : 40
 ---
 
+![StrongDM Logo](/static/strongdm_logo.png)
 # Getting Started with StrongDM
 
 ## Requirements
