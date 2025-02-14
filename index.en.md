@@ -17,7 +17,7 @@ weight : 40
 
    On the bottom left, click on "Download & Install" and download the StrongDM Desktop app specific to your desktop client. macOS and Windows platforms have GUI and CLI apps, Linux is CLI only. Install the Desktop App and login with the same credentials as the Admin UI.
 
-   ![StrongDM Downloads](/static/strongdm_downloads.png)
+   ![StrongDM Download](/static/strongdm_download.png)
 
 3) Using StrongDM Gateways
 
