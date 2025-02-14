@@ -11,6 +11,8 @@ weight : 40
    
    After logging in, you will be greeted with the StrongDM Admin UI, where you can manage resources, requests, and policies.
 
+   Create a role that is unique to you, under Principals -> Roles, and assign the role to yourself be selecting "Actions" for your Username in Principals -> Users -> <Username> -> Actions -> Set Roles.
+
    ![StrongDM Admin UI](/static/strongdm_admin_ui.png)
 
 2) Download the StrongDM Desktop app
@@ -27,7 +29,7 @@ weight : 40
 
 4) Set up an EC2 Linux Instance
 
-   Start an Ubuntu (recommended) or other Linux instance in the primary private VPC subnet in the AWS-provided AWS account. You will need the private key to store in Strong Vault when setting up the SSH resource under Resources -> Servers. Also, the EC2 seucity group must allow TCP port 22 from the StrongDM Gateway's EC2 Security Group. The SSH private key and port 22 will be used to configure the resource in StrongDM. 
+   Start an Ubuntu (recommended) or other Linux instance in the primary private VPC subnet in the AWS-provided AWS account. You will need the private key to store in Strong Vault when setting up the SSH resource under Resources -> Servers. Also, the EC2 seucity group must allow TCP port 22 from the StrongDM Gateway's EC2 Security Group. The SSH private key and port 22 will be used to configure the resource in StrongDM. Tag the instance with a `Name` tag that is unique to you.
    
    In the StrongDM Admin UI, to go Resources -> Servers, and click Add Server. Name the resource with a name unique to you, enter the private IP address or DNS name of your EC2 instance, the private SSH key, and 'ubuntu' under user name. Ensure that you create and enter a resource tag with a unique name to you. I recommend `env=<username>`.
    
@@ -38,13 +40,16 @@ weight : 40
 
 5) Set up an RDS PostgreSQL Database
 
-   Start a new RDS PostgreSQL database. The user and password credential for your admin user will be stored in the Strong Vault when setting up the database resource under Resources -> Datasources. The default port 5432 will be used to configure the resource in StrongDM. After setting up the resource, confirm that the resource status is "Healthy".
+   Start a new RDS PostgreSQL database. Similar to the EC2 Instance above, start the database in the private VPC subnet, You will need the database username and password that you set up for the database, the DB Identifier, and will use the default port 5432.
    
-   Download and install a SQL client of choice onto your desktop. Recommended is Beekeeper Studio Community Edition or DBEaver. In the resource settings, make sure you set a tag with "name=first+lastname" (no spaces).
+   In the StrongDM Admin UI, go to Resources -> Datasources. Click on "Add datasource", name the resource something unique to you, and choose "PostgreSQL" as the database type. Enter port 5432, the DB Identifier under "Database" and the Username and Password from the RDS Database. Ensure that you create and enter a resource tag with a unique name to you. I recommend `env=<username>`. After setting up the resource, confirm that the resource status is "Healthy".
    
-   ![Beekeeper Studio](/static/BeekeeperStudio.png)
+   Download and install a SQL client of choice onto your desktop. Recommended is Beekeeper Studio Community Edition or DBEaver.
 
-6) Submit an access request
+   ![StrongDM PostgreSQL Resource](/static/strongdm_postgres_resource.png)
+   ![Beekeeper Studio](/static/beekeeper_studio.png)
+
+6) Access the Resource
 
    Under Principals -> Users, click on Actions -> Grants Temporary Access, search for your resources, and grant yourself temporary access for the resources above. Once granted, you will see the resources in the StrongDM Desktop app. Click on "Connect". Test connectivity to those resources using the clients of choice: SSH CLI or GUI client; SQL CLI or GUI client. When connecting, use `localhost` and the StrongDM generated port number. No username or password will be used.
 
