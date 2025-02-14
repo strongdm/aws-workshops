@@ -7,17 +7,23 @@ weight : 40
 
 1) Access the StrongDM Admin UI portal and log in with your credentials.
 
-   After you receive an invite from StrongDM, start by navigating to the [StrongDM Login Page](https://app.strongdm.com) and entering your credentials. After logging in, you will be greeted with the StrongDM Admin UI, where you can manage resources, requests, and policies.
+   After you receive an invite from StrongDM, start by navigating to the [StrongDM Login Page](https://app.strongdm.com) and entering your credentials. You will be required to use a TOTP MFA app, such as Google Authenticator, to configure MFA. This MFA token will be used later in the workshop, as well.
+   
+   After logging in, you will be greeted with the StrongDM Admin UI, where you can manage resources, requests, and policies.
 
-   ![Resource Center](/static/ResourceCenter.png)
+   ![StrongDM Admin UI](/static/strongdm_admin_ui.png)
 
 2) Download the StrongDM Desktop app
 
    On the bottom left, click on "Download & Install" and download the StrongDM Desktop app specific to your desktop client. macOS and Windows platforms have GUI and CLI apps, Linux is CLI only. Install the Desktop App and login with the same credentials as the Admin UI.
 
+   ![StrongDM Downloads](/static/strongdm_downloads.png)
+
 3) Using StrongDM Gateways
 
    StrongDM Gateways will already be installed in your AWS account, with the appropriate port (TCP/5000) configured in the EC2 Security Group. When creating resources in StrongDM, you will associate to these gateways.
+
+   ![StrongDM Gateways](/static/strongdm_gateways.png)
 
 4) Set up an EC2 Linux Instance
 
