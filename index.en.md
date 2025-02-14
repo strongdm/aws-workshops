@@ -5,6 +5,25 @@ weight : 40
 
 # Getting Started with StrongDM
 
+## Requirements
+
+1) **StrongDM Account**: You will receive a follow-up email from the StrongDM admin portal no less than 24 hours prior to the workshop, ensure that you sign in, set a password, and set up an MFA authenticator before the workshop.
+
+2) **AWS Account**: You will log in to the AWS Cloud Management console, and you’ll receive an email prior to the workshop with link and instructions for setting up your access to the account. Ensure that you sign in, set a password, and set up an MFA authenticator before the workshop.
+
+3) **BYOD**: You will need a macOS or Windows desktop environment from which you can access the Internet and install applications. If you have previously installed the StrongmDM Desktop app on that system, you will need to log out of your current credentials and use the StrongDM credentials that you will receive for the workshop.
+
+4) **Desktop Tools**: Your desktop must be able to connect to SSH and PostgreSQL. Some people are comfortable with the CLI, so ssh and psql from a terminal or command window are good enough for them. For those who want a GUI, it’s perfectly fine to use PuTTY, Beekeeper Studio Community Edition, or DBeaver. (there are others, but those are the most common)
+
+5) **Network Requirements**: Ensure that the network you are connecting from does not block connectivity to the StrongDM network. StrongDM requires connectivity to the internet on TCP port 5000. Corporate VPNs and networks sometimes block those egress ports. For testing purposes, you will also need to access TCP ports 22 (SSH) and 5432 (PostgreSQL) during the workshop. The reference architecture diagram shows exactly how network traffic flows from your desktop to StrongDM and AWS resources. In most cases, disabling or disconnecting from VPN, or joining a hotspot will fix connectivity issues.
+
+6) **Bring Your Curiosity (and maybe a snack and a beverage to stay hydrated!)**:  Come with questions and an open mind—because in this workshop, there are no dumb questions, only unasked ones…and be ready to tinker! 
+
+**NOTE**: The various resource and user names below will differ from what we work with in the Workshop
+___
+
+## Workshop Exercises
+
 1) Access the StrongDM Admin UI portal and log in with your credentials.
 
    After you receive an invite from StrongDM, start by navigating to the [StrongDM Login Page](https://app.strongdm.com) and entering your credentials. You will be required to use a TOTP MFA app, such as Google Authenticator, to configure MFA. This MFA token will be used later in the workshop, as well.
@@ -49,15 +68,16 @@ weight : 40
    ![StrongDM PostgreSQL Resource](/static/strongdm_postgres_resource.png)
    ![Beekeeper Studio](/static/beekeeper_studio.png)
 
-6) Access the Resource
+6) Grant Temporary Access the Resource
 
-   Under Principals -> Users, click on Actions -> Grants Temporary Access, search for your resources, and grant yourself temporary access for the resources above. Once granted, you will see the resources in the StrongDM Desktop app. Click on "Connect". Test connectivity to those resources using the clients of choice: SSH CLI or GUI client; SQL CLI or GUI client. When connecting, use `localhost` and the StrongDM generated port number. No username or password will be used.
+   Under Principals -> Users, click on Actions -> Grants Temporary Access, search for your resources, and grant yourself temporary access for the resources above. Set an expiratoin time of your choosing. Note that if you choose less than the time of the workshop, your session will be terminated and you will need to grant access again.
+   
+   Once granted, you will see the resources in the StrongDM Desktop app. Click on "Connect". Test connectivity to those resources using the clients of choice: SSH CLI or GUI client; SQL CLI or GUI client. When connecting, use `localhost` and the StrongDM dynamically generated port number. No username or password will be used.
 
-   You will approve your own request.
+   ![Grant Access](/static/strongdm_grant_acccess.png)
+   ![StrongDM Client](/static/strongdm_client.png)
 
-   ![Access Request](/static/RequestAcccess.png)
-
-7) Create Policies
+7) [**OPTIONAL**]Create Policies
 
    In the StrongDM Admin UI, create policies that will allow access based contextual attributes (SSH and Postgres) and SQL actions (Postgres). Set up a policy that requires MFA (`@mfa` annotation) when connecting to a resource. The [StrongDM Policies documentation](https://www.strongdm.com/docs/admin/policies/) has syntax and attributes supported, the Policy Creator in the Admin UI has autocomplete hints, and the [Policy Playbooks page](https://www.strongdm.com/policies) has real-world examples you can experiment with.
 
@@ -73,11 +93,6 @@ weight : 40
 
    ![Logs Overview](/static/Logs.png)
 
-10) View and manage database entries.
-
-   Once access is granted, you can use tools like Beekeeper Studio to explore and query your database. For example, you might view tables and execute queries to interact with the data.
-
-   ![Database Table](/static/Table.png)
 
 # Destroying the Configuration
 
