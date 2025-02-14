@@ -27,7 +27,14 @@ weight : 40
 
 4) Set up an EC2 Linux Instance
 
-   Start an Ubuntu (recommended) or other Linux instance. You will need the private key to store in Strong Vault when setting up the SSH resource under Resources -> Servers. The default port 22 will be used to configure the resource in StrongDM. After setting up the resource, confirm that the resource status is "Healthy". In the resource settings, make sure you set a tag with "name=first+lastname" (no spaces).
+   Start an Ubuntu (recommended) or other Linux instance in the primary private VPC subnet in the AWS-provided AWS account. You will need the private key to store in Strong Vault when setting up the SSH resource under Resources -> Servers. Also, the EC2 seucity group must allow TCP port 22 from the StrongDM Gateway's EC2 Security Group. The SSH private key and port 22 will be used to configure the resource in StrongDM. 
+   
+   In the StrongDM Admin UI, to go Resources -> Servers, and click Add Server. Name the resource with a name unique to you, enter the private IP address or DNS name of your EC2 instance, the private SSH key, and 'ubuntu' under user name. Ensure that you create and enter a resource tag with a unique name to you. I recommend `env=<username>`.
+   
+   After setting up the resource, confirm that the resource status is "Healthy".
+
+   ![Linux EC2 Instance](/static/aws_ec2_linux_instance.png)
+   ![StrongDM SSH Resource](/static/strongdm_ssh_resource.png)
 
 5) Set up an RDS PostgreSQL Database
 
