@@ -22,8 +22,10 @@ weight : 40
 
 ## Following this Guide
 
-[!NOTE]The various resource, user names, and other identifiers in the screenshots below will differ from what we work with in the Workshop
-[!TIP]It's recommended you use the "Table of Contents" GitHub feature when using this guide, clock on the 3 stacked lines (a.k.a. the Hamburger Menu) on the top-right to see the Table of Contents.
+> [!NOTE]
+> The various resource, user names, and other identifiers in the screenshots below will differ from what we work with in the Workshop
+> [!TIP]
+> It's recommended you use the "Table of Contents" GitHub feature when using this guide, clock on the 3 stacked lines (a.k.a. the Hamburger Menu) on the top-right to see the Table of Contents.
 ___
 
 ## Workshop Exercises
