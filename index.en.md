@@ -78,21 +78,37 @@ ___
    ![Grant Access](./static/strongdm_grant_access.png)
    ![StrongDM Client](./static/strongdm_client.png)
 
-7) [**OPTIONAL**]Create Policies
+7) [**OPTIONAL**] Create Policies
 
    In the StrongDM Admin UI, create policies that will allow access based contextual attributes (SSH and Postgres) and SQL actions (Postgres). Set up a policy that requires MFA (`@mfa` annotation) when connecting to a resource. The [StrongDM Policies documentation](https://www.strongdm.com/docs/admin/policies/) has syntax and attributes supported, the Policy Creator in the Admin UI has autocomplete hints, and the [Policy Playbooks page](https://www.strongdm.com/policies) has real-world examples you can experiment with.
 
-8) Monitor activity with Policy Monitor.
+8) Create and Use JIT Access Workflows
+
+   In the StrongDM Admin UI, go to Access -> Approval Workflows. Click Add approval workflow, and create a new workflow that allows the role you created for yourself above to approve access requests. You may select Automatic or Manual Approval, or toggle between the two to see the difference in behavior. When you select the role for approval, use the role you created for yourself above, ensuring it's unique. You may also select your username.
+
+   Next, go to Access -> Workflows, click on Create access workflow, give the workflow a unique name, add a Dyanmic rule that includes resources with the `env=<username>` tag you created before. Attach the role you created for yourself, and under Approval Criteria, choose the Approval Workflow you created prior to this step. Save the Access Workflow and ensure that you taggle the Enabled setting. 
+
+   Finally, to use the workflow, ensure that you've disconnected and revoked access to your resources (Under Principals -> <Username> -> Temporary Access -> Revoke), and then go to Requests -> Catalog and search or select your resources, then follow the dialogs after clicking Request Access. Depending on the type of workflow you configured (Automatic or Manual), you will either automatically gain access to the resource (check the StrongDM Client) or will be required to manually approve the reqest.
+
+   ![Grant Access](./static/strongdm_approval_workflow.png)
+   ![Grant Access](./static/strongdm_access_workflow.png)
+   ![Grant Access](./static/strongdm_resource_catalog.png)
+
+9) Monitor activity with Policy Monitor
 
    Use the Policy Monitor to view and evaluate user actions within StrongDM. It provides a detailed breakdown of allowed and denied actions, helping ensure compliance with security policies.
 
-   ![Policy Monitor](./static/PolicyMonitor.png)
+   ![Policy Monitor](./static/strongdm_policy_monitor.png)
 
-9) Explore logs for auditing and troubleshooting.
+10) Explore logs for auditing and troubleshooting.
 
-   StrongDM maintains detailed logs of all user actions, making it easy to audit and troubleshoot any issues. Access the logs section from the dashboard and filter results by user, resource, or action.
+   StrongDM maintains detailed logs of all user actions, making it easy to audit and troubleshoot any issues. Access the logs section from the StrongDM Admin UI and filter results by user, resource, or action.
 
-   ![Logs Overview](./static/Logs.png)
+   ![Logs Overview](./static/strongdm_logs.png)
+
+11) [**TIME PERMITTING / OPTIONAL**] Create AWS CLI or AWS Console Resource
+
+   Follow the instructions in the [StrongDM Cloud Resource docs](https://www.strongdm.com/docs/admin/resources/clouds/) for configuring AWS CLI and AWS Console resources, following the conventiions for resource tags above.
 
 
 # Destroying the Configuration
