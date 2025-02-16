@@ -20,12 +20,15 @@ weight : 40
 
 6) **Bring Your Curiosity (and maybe a snack and a beverage to stay hydrated!)**:  Come with questions and an open mind—because in this workshop, there are no dumb questions, only unasked ones…and be ready to tinker! 
 
-**NOTE**: The various resource and user names below will differ from what we work with in the Workshop
+## Following this Guide
+
+[!NOTE]The various resource, user names, and other identifiers in the screenshots below will differ from what we work with in the Workshop
+[!TIP]It's recommended you use the "Table of Contents" GitHub feature when using this guide, clock on the 3 stacked lines (a.k.a. the Hamburger Menu) on the top-right to see the Table of Contents.
 ___
 
 ## Workshop Exercises
 
-1) Access the StrongDM Admin UI portal and log in with your credentials.
+### Access the StrongDM Admin UI portal and log in with your credentials.
 
    After you receive an invite from StrongDM, start by navigating to the [StrongDM Login Page](https://app.strongdm.com) and entering your credentials. You will be required to use a TOTP MFA app, such as Google Authenticator, to configure MFA. This MFA token will be used later in the workshop, as well.
    
@@ -35,19 +38,19 @@ ___
 
    ![StrongDM Admin UI](./static/strongdm_admin_ui.png)
 
-2) Download the StrongDM Desktop app
+### Download the StrongDM Desktop app
 
    On the bottom left, click on "Download & Install" and download the StrongDM Desktop app specific to your desktop client. macOS and Windows platforms have GUI and CLI apps, Linux is CLI only. Install the Desktop App and login with the same credentials as the Admin UI.
 
    ![StrongDM Download](./static/strongdm_download.png)
 
-3) Using StrongDM Gateways
+### Using StrongDM Gateways
 
    StrongDM Gateways will already be installed in your AWS account, with the appropriate port (TCP/5000) configured in the EC2 Security Group. When creating resources in StrongDM, you will associate to these gateways.
 
    ![StrongDM Gateways](./static/strongdm_gateways.png)
 
-4) Set up an EC2 Linux Instance
+### Set up an EC2 Linux Instance
 
    Start an Ubuntu (recommended) or other Linux instance in the primary private VPC subnet in the AWS-provided AWS account. You will need the private key to store in Strong Vault when setting up the SSH resource under Resources -> Servers. Also, the EC2 seucity group must allow TCP port 22 from the StrongDM Gateway's EC2 Security Group. The SSH private key and port 22 will be used to configure the resource in StrongDM. Tag the instance with a `Name` tag that is unique to you.
    
@@ -58,7 +61,7 @@ ___
    ![Linux EC2 Instance](./static/aws_ec2_linux_instance.png)
    ![StrongDM SSH Resource](./static/strongdm_ssh_resource.png)
 
-5) Set up an RDS PostgreSQL Database
+### Set up an RDS PostgreSQL Database
 
    Start a new RDS PostgreSQL database. Similar to the EC2 Instance above, start the database in the private VPC subnet, You will need the database username and password that you set up for the database, the DB Identifier, and will use the default port 5432.
    
@@ -69,7 +72,7 @@ ___
    ![StrongDM PostgreSQL Resource](./static/strongdm_postgres_resource.png)
    ![Beekeeper Studio](./static/beekeeper_studio.png)
 
-6) Grant Temporary Access the Resource
+### Grant Temporary Access the Resource
 
    Under Principals -> Users, click on Actions -> Grants Temporary Access, search for your resources, and grant yourself temporary access for the resources above. Set an expiratoin time of your choosing. Note that if you choose less than the time of the workshop, your session will be terminated and you will need to grant access again.
    
@@ -78,11 +81,11 @@ ___
    ![Grant Access](./static/strongdm_grant_access.png)
    ![StrongDM Client](./static/strongdm_client.png)
 
-7) [**OPTIONAL**] Create Policies
+### [**OPTIONAL**] Create Policies
 
    In the StrongDM Admin UI, create policies that will allow access based contextual attributes (SSH and Postgres) and SQL actions (Postgres). Set up a policy that requires MFA (`@mfa` annotation) when connecting to a resource. The [StrongDM Policies documentation](https://www.strongdm.com/docs/admin/policies/) has syntax and attributes supported, the Policy Creator in the Admin UI has autocomplete hints, and the [Policy Playbooks page](https://www.strongdm.com/policies) has real-world examples you can experiment with.
 
-8) Create and Use JIT Access Workflows
+### Create and Use JIT Access Workflows
 
    In the StrongDM Admin UI, go to Access -> Approval Workflows. Click Add approval workflow, and create a new workflow that allows the role you created for yourself above to approve access requests. You may select Automatic or Manual Approval, or toggle between the two to see the difference in behavior. When you select the role for approval, use the role you created for yourself above, ensuring it's unique. You may also select your username.
 
@@ -94,19 +97,19 @@ ___
    ![Grant Access](./static/strongdm_access_workflow.png)
    ![Grant Access](./static/strongdm_resource_catalog.png)
 
-9) Monitor activity with Policy Monitor
+### Monitor activity with Policy Monitor
 
    Use the Policy Monitor to view and evaluate user actions within StrongDM. It provides a detailed breakdown of allowed and denied actions, helping ensure compliance with security policies.
 
    ![Policy Monitor](./static/strongdm_policy_monitor.png)
 
-10) Explore logs for auditing and troubleshooting.
+### Explore logs for auditing and troubleshooting.
 
    StrongDM maintains detailed logs of all user actions, making it easy to audit and troubleshoot any issues. Access the logs section from the StrongDM Admin UI and filter results by user, resource, or action.
 
    ![Logs Overview](./static/strongdm_logs.png)
 
-11) [**TIME PERMITTING / OPTIONAL**] Create AWS CLI or AWS Console Resource
+### [**TIME PERMITTING / OPTIONAL**] Create AWS CLI or AWS Console Resource
 
    Follow the instructions in the [StrongDM Cloud Resource docs](https://www.strongdm.com/docs/admin/resources/clouds/) for configuring AWS CLI and AWS Console resources, following the conventiions for resource tags above.
 
