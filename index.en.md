@@ -20,6 +20,9 @@ weight : 40
 
 6) **Bring Your Curiosity (and maybe a snack and a beverage to stay hydrated!)**:  Come with questions and an open mind—because in this workshop, there are no dumb questions, only unasked ones…and be ready to tinker! 
 
+## Reference Architecture
+![StrongDM AWS Reference Architecture](./static/strongdm_aws_architecture.png)
+
 ## Following this Guide
 
 > [!NOTE]
