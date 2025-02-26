@@ -56,9 +56,15 @@ ___
 
    ![StrongDM Gateways](./static/strongdm_gateways.png)
 
+### Accessing AWS Console
+
+You will receive a one-time link for the AWS account we'll be using in the Workshop. Create your account. All relevant StrongDM infrastructure (VPC, StrongDM Gateways), will be set up in the `us-west-2` (Oregon) region, so choose that region from the drop-down menu at the top of the AWS Console.
+
+CLI credentials are also provided, and you may use `aws-cli`, however, for this Workshop, we will primarily support you on AWS Console only.
+
 ### Set up an EC2 Linux Instance
 
-   Start an Ubuntu (recommended) or other Linux instance in the primary private VPC subnet in the AWS-provided AWS account. You will need the private key to store in Strong Vault when setting up the SSH resource under Resources -> Servers. Also, the EC2 seucity group must allow TCP port 22 from the StrongDM Gateway's EC2 Security Group. The SSH private key and port 22 will be used to configure the resource in StrongDM. Tag the instance with a `Name` tag that is unique to you.
+   Start an Ubuntu (ami-id `ami-00c257e12d6828491`) in the primary private VPC subnet in the AWS-provided AWS account. We will not be supporting other flavors of Linux, but you may experiment, if you wish. You will need the private key to store in Strong Vault when setting up the SSH resource under Resources -> Servers. Also, the EC2 seucity group must allow TCP port 22 from the StrongDM Gateway's EC2 Security Group. The SSH private key and port 22 will be used to configure the resource in StrongDM. Tag the instance with a `Name` tag that is unique to you.
    
    In the StrongDM Admin UI, to go Resources -> Servers, and click Add Server. Name the resource with a name unique to you, enter the private IP address or DNS name of your EC2 instance, the private SSH key, and 'ubuntu' under user name. Ensure that you create and enter a resource tag with a unique name to you. I recommend `env=<username>`.
    
