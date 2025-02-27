@@ -28,6 +28,9 @@ weight : 40
 > [!NOTE]
 > The various resource, user names, and other identifiers in the screenshots below will differ from what we work with in the Workshop
 
+> [!NOTE]
+> If your AWS is not the same as the instructor's main AWS account, follow the instructions for setting up the StrongDM Gateways in the default VPC below in the section **Alternate Gateway Instructions**
+
 > [!TIP]
 > It's recommended you use the ***Table of Contents*** GitHub feature when using this guide, click on the 3 stacked lines (a.k.a. the Hamburger Menu) on the top-right to see the Table of Contents.
 ___
@@ -64,7 +67,7 @@ CLI credentials are also provided, and you may use `aws-cli`, however, for this 
 
 ### Set up an EC2 Linux Instance
 
-   Start an Ubuntu (ami-id `ami-00c257e12d6828491`) in the primary private VPC subnet in the AWS-provided AWS account. We will not be supporting other flavors of Linux, but you may experiment, if you wish. You will need the private key to store in Strong Vault when setting up the SSH resource under Resources -> Servers. Also, the EC2 seucity group must allow TCP port 22 from the StrongDM Gateway's EC2 Security Group. The SSH private key and port 22 will be used to configure the resource in StrongDM. Tag the instance with a `Name` tag that is unique to you.
+   Start an Ubuntu (ami-id `ami-00c257e12d6828491`) in the primary private VPC subnet in the AWS-provided AWS account. We will not be supporting other flavors of Linux, but you may experiment, if you wish. You will need the private key to store in Strong Vault when setting up the SSH resource under Resources -> Servers. Also, the EC2 security group must allow TCP port 22 from the StrongDM Gateway's EC2 Security Group. The SSH private key and port 22 will be used to configure the resource in StrongDM. Tag the instance with a `Name` tag that is unique to you.
    
    In the StrongDM Admin UI, to go Resources -> Servers, and click Add Server. Name the resource with a name unique to you, enter the private IP address or DNS name of your EC2 instance, the private SSH key, and 'ubuntu' under user name. Ensure that you create and enter a resource tag with a unique name to you. I recommend `env=<username>`.
    
@@ -138,3 +141,17 @@ You may manually revoke sessions and delete resources from the Admin UI and AWS 
 - [StrongDM Support](https://support.strongdm.com)
 
 This walkthrough introduces key features of StrongDM and demonstrates its capabilities for simplifying and securing infrastructure access. Let us know if you have any questions or need further guidance during the workshop!
+
+# Alternate Gateway Instructions
+
+If your AWS account is not the same account as the instructor's, you will not see pre-populated StrongDM Gateways. In this case, use the following instructions to set up a new StrongDM Gateway. Full Gateway instructions are found in the [StrongDM Documentation](https://www.strongdm.com/docs/admin/nodes/ec2/).
+
+- Launch an EC2 instance from the EC2 Console in EC2 -> AMI Catalog -> Community AMIs and search for StrongDM
+  `ami-0e803fb00cdbce0e6` in `us-east-1`
+  `ami-0f018eee57158078d` in `us-west-2`
+- Setup an EC2 Security Group that allows ingress TCP/5000 from everywhere (0.0.0.0) and egress to everywhere
+- Make sure you have assigned a public IP address and Elastic IP (optional for this exercise) for this instance
+- You will pass in a `user-data` script that entails one environment variable: `SDM_ADMIN_TOKEN=`, instructor will supply the value of this token
+- In the StrongDM Admin UI, you will see a new Gateway in Networking -> Gateways
+- The Gateway's Status should turn "online" within a minute or two, if not, flag an instructor
+- Ensure that you use your new EC2 security as ingress for the resources you create above
