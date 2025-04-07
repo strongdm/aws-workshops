@@ -25,6 +25,10 @@ weight : 40
 
 ![StrongDM AWS Reference Architecture](./static/strongdm_aws_architecture.png)
 
+[!NOTE]
+
+The architecture above is the reference architecture for production environments. For purposes of this Workshop, we will be create a single Gateway in the default VPC in the AWS account.
+
 ## Following this Guide
 
 > [!NOTE]
@@ -61,13 +65,19 @@ ___
 Follow these instructions to set up a new StrongDM Gateway. Full Gateway instructions are found in the [StrongDM Documentation](https://www.strongdm.com/docs/admin/nodes/ec2/).
 
 - Launch an EC2 instance from the EC2 Console in EC2 -> AMI Catalog -> Community AMIs and search for StrongDM `ami-0e803fb00cdbce0e6` in `us-east-1` `ami-0f018eee57158078d` in `us-west-2`
-- Setup an EC2 Security Group that allows ingress TCP/5000 from everywhere (0.0.0.0) and egress to everywhere
-- Make sure you have assigned a public IP address and Elastic IP (optional for this exercise) for this instance
-- You will pass in a `user-data` script that entails one environment variable: `SDM_ADMIN_TOKEN=`, instructor will supply the value of this token
-- In the StrongDM Admin UI, you will see a new Gateway in Networking -> Gateways
-- The Gateway's Status should turn "online" within a minute or two, if not, flag an instructor
-- Ensure that you use your new EC2 security as ingress for the resources you create above
 
+- Setup an EC2 Security Group that allows ingress TCP/5000 from everywhere (0.0.0.0) and egress to everywhere
+
+- Make sure you have assigned a public IP address and Elastic IP (optional for this exercise) for this instance
+
+- You will pass in a `user-data` script that entails one environment variable: `SDM_ADMIN_TOKEN=`, instructor will supply the value of this token
+
+- In the StrongDM Admin UI, you will see a new Gateway in Networking -> Gateways
+
+- The Gateway's Status should turn "online" within a minute or two, if not, flag an instructor
+
+- Ensure that you use your new EC2 security as ingress for the resources you create above
+  
    ![StrongDM Gateways](./static/strongdm_gateways.png)
 
 ### Accessing AWS Console
@@ -97,9 +107,9 @@ To add the Linux instance to StrongDM
 - Enter the private SSH key, and 'ubuntu' under user name
 
 - Ensure that you create and enter a resource tag with a unique name to you. I recommend `env=<username>`.
-
+  
    After setting up the resource, confirm that the resource status is "Healthy".
-
+  
    ![Linux EC2 Instance](./static/aws_ec2_linux_instance.png)
    ![StrongDM SSH Resource](./static/strongdm_ssh_resource.png)
 
