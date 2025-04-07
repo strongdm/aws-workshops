@@ -25,7 +25,7 @@ weight : 40
 
 ![StrongDM AWS Reference Architecture](./static/strongdm_aws_architecture.png)
 
-[!NOTE]
+>  [!NOTE]
 
 The architecture above is the reference architecture for production environments. For purposes of this Workshop, we will be create a single Gateway in the default VPC in the AWS account.
 
