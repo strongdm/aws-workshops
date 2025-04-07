@@ -4,6 +4,7 @@ weight : 40
 ---
 
 ![StrongDM Logo](./static/strongdm_logo.png)
+
 # Getting Started with StrongDM
 
 ## Requirements
@@ -21,6 +22,7 @@ weight : 40
 6) **Bring Your Curiosity (and maybe a snack and a beverage to stay hydrated!)**:  Come with questions and an open mind—because in this workshop, there are no dumb questions, only unasked ones…and be ready to tinker! 
 
 ## Reference Architecture
+
 ![StrongDM AWS Reference Architecture](./static/strongdm_aws_architecture.png)
 
 ## Following this Guide
@@ -33,6 +35,7 @@ weight : 40
 
 > [!TIP]
 > It's recommended you use the ***Table of Contents*** GitHub feature when using this guide, click on the 3 stacked lines (a.k.a. the Hamburger Menu) on the top-right to see the Table of Contents.
+
 ___
 
 ## Workshop Exercises
@@ -40,7 +43,7 @@ ___
 ### Access the StrongDM Admin UI portal and log in with your credentials.
 
    After you receive an invite from StrongDM, start by navigating to the [StrongDM Login Page](https://app.strongdm.com) and entering your credentials. You will be required to use a TOTP MFA app, such as Google Authenticator, to configure MFA. This MFA token will be used later in the workshop, as well.
-   
+
    After logging in, you will be greeted with the StrongDM Admin UI, where you can manage resources, requests, and policies.
 
    Create a role that is unique to you, under Principals -> Roles, and assign the role to yourself be selecting "Actions" for your Username in Principals -> Users -> <Username> -> Actions -> Set Roles.
@@ -53,9 +56,17 @@ ___
 
    ![StrongDM Download](./static/strongdm_download.png)
 
-### Using StrongDM Gateways
+### Setup a StrongDM Gateway
 
-   StrongDM Gateways will already be installed in your AWS account, with the appropriate port (TCP/5000) configured in the EC2 Security Group. When creating resources in StrongDM, you will associate to these gateways.
+Follow these instructions to set up a new StrongDM Gateway. Full Gateway instructions are found in the [StrongDM Documentation](https://www.strongdm.com/docs/admin/nodes/ec2/).
+
+- Launch an EC2 instance from the EC2 Console in EC2 -> AMI Catalog -> Community AMIs and search for StrongDM `ami-0e803fb00cdbce0e6` in `us-east-1` `ami-0f018eee57158078d` in `us-west-2`
+- Setup an EC2 Security Group that allows ingress TCP/5000 from everywhere (0.0.0.0) and egress to everywhere
+- Make sure you have assigned a public IP address and Elastic IP (optional for this exercise) for this instance
+- You will pass in a `user-data` script that entails one environment variable: `SDM_ADMIN_TOKEN=`, instructor will supply the value of this token
+- In the StrongDM Admin UI, you will see a new Gateway in Networking -> Gateways
+- The Gateway's Status should turn "online" within a minute or two, if not, flag an instructor
+- Ensure that you use your new EC2 security as ingress for the resources you create above
 
    ![StrongDM Gateways](./static/strongdm_gateways.png)
 
@@ -67,10 +78,26 @@ CLI credentials are also provided, and you may use `aws-cli`, however, for this 
 
 ### Set up an EC2 Linux Instance
 
-   Start an Ubuntu (ami-id `ami-00c257e12d6828491`) in the primary private VPC subnet in the AWS-provided AWS account. We will not be supporting other flavors of Linux, but you may experiment, if you wish. You will need the private key to store in Strong Vault when setting up the SSH resource under Resources -> Servers. Also, the EC2 security group must allow TCP port 22 from the StrongDM Gateway's EC2 Security Group. The SSH private key and port 22 will be used to configure the resource in StrongDM. Tag the instance with a `Name` tag that is unique to you.
-   
-   In the StrongDM Admin UI, to go Resources -> Servers, and click Add Server. Name the resource with a name unique to you, enter the private IP address or DNS name of your EC2 instance, the private SSH key, and 'ubuntu' under user name. Ensure that you create and enter a resource tag with a unique name to you. I recommend `env=<username>`.
-   
+- Start an Ubuntu (ami-id `ami-00c257e12d6828491`)
+
+- Create an EC2 Security Group that allows TCP port 22 from the StrongDM Gateway's EC2 Security Group that you started above
+
+- Download the SSH private key, as you will need that to configure the SSH resource in StrongDM
+
+- Tag the instance with a suitable and uniqe `Name` tag
+
+To add the Linux instance to StrongDM
+
+- In the StrongDM Admin UI, to go Resources -> Servers, and click Add Server
+
+- Name the resource with a name unique to you
+
+- Enter the private IP address or DNS name of your EC2 instance
+
+- Enter the private SSH key, and 'ubuntu' under user name
+
+- Ensure that you create and enter a resource tag with a unique name to you. I recommend `env=<username>`.
+
    After setting up the resource, confirm that the resource status is "Healthy".
 
    ![Linux EC2 Instance](./static/aws_ec2_linux_instance.png)
@@ -78,11 +105,31 @@ CLI credentials are also provided, and you may use `aws-cli`, however, for this 
 
 ### Set up an RDS PostgreSQL Database
 
-   Start a new RDS PostgreSQL database. Similar to the EC2 Instance above, start the database in the private VPC subnet, You will need the database username and password that you set up for the database, the DB Identifier, and will use the default port 5432.
-   
-   In the StrongDM Admin UI, go to Resources -> Datasources. Click on "Add datasource", name the resource something unique to you, and choose "PostgreSQL" as the database type. Enter port 5432, the DB Identifier under "Database" and the Username and Password from the RDS Database. Ensure that you create and enter a resource tag with a unique name to you. I recommend `env=<username>`. After setting up the resource, confirm that the resource status is "Healthy".
-   
-   Download and install a SQL client of choice onto your desktop. Recommended is Beekeeper Studio Community Edition or DBEaver.
+- Start a new RDS PostgreSQL database
+
+- Note the database username and password that you set up for the database
+
+- Note the DB Identifier
+
+- Use the default port 5432
+
+To add the database to StrongDM:
+
+- In the StrongDM Admin UI, go to Resources -> Datasources
+
+- Click on "Add datasource", name the resource something unique to you, and choose "PostgreSQL" as the database type
+
+- Enter port 5432
+
+- Enter DB Identifier under "Database"
+
+- Enter the Username and Password
+
+- Ensure that you create and enter a resource tag with a unique name to you. I recommend `env=<username>`
+
+- After setting up the resource, confirm that the resource status is "Healthy"
+
+Download and install a SQL client of choice onto your desktop. Recommended is Beekeeper Studio Community Edition or DBEaver.
 
    ![StrongDM PostgreSQL Resource](./static/strongdm_postgres_resource.png)
    ![Beekeeper Studio](./static/beekeeper_studio.png)
@@ -90,15 +137,13 @@ CLI credentials are also provided, and you may use `aws-cli`, however, for this 
 ### Grant Temporary Access the Resource
 
    Under Principals -> Users, click on Actions -> Grants Temporary Access, search for your resources, and grant yourself temporary access for the resources above. Set an expiratoin time of your choosing. Note that if you choose less than the time of the workshop, your session will be terminated and you will need to grant access again.
-   
+
    Once granted, you will see the resources in the StrongDM Desktop app. Click on "Connect". Test connectivity to those resources using the clients of choice: SSH CLI or GUI client; SQL CLI or GUI client. When connecting, use `localhost` and the StrongDM dynamically generated port number. No username or password will be used.
 
    ![Grant Access](./static/strongdm_grant_access.png)
    ![StrongDM Client](./static/strongdm_client.png)
 
-### [**OPTIONAL**] Create Policies
-
-   In the StrongDM Admin UI, create policies that will allow access based contextual attributes (SSH and Postgres) and SQL actions (Postgres). Set up a policy that requires MFA (`@mfa` annotation) when connecting to a resource. The [StrongDM Policies documentation](https://www.strongdm.com/docs/admin/policies/) has syntax and attributes supported, the Policy Creator in the Admin UI has autocomplete hints, and the [Policy Playbooks page](https://www.strongdm.com/policies) has real-world examples you can experiment with.
+### 
 
 ### Create and Use JIT Access Workflows
 
@@ -124,10 +169,13 @@ CLI credentials are also provided, and you may use `aws-cli`, however, for this 
 
    ![Logs Overview](./static/strongdm_logs.png)
 
+### [**OPTIONAL**] Create Policies
+
+In the StrongDM Admin UI, create policies that will allow access based contextual attributes (SSH and Postgres) and SQL actions (Postgres). Set up a policy that requires MFA (`@mfa` annotation) when connecting to a resource. The [StrongDM Policies documentation](https://www.strongdm.com/docs/admin/policies/) has syntax and attributes supported, the Policy Creator in the Admin UI has autocomplete hints, and the [Policy Playbooks page](https://www.strongdm.com/policies) has real-world examples you can experiment with.
+
 ### [**TIME PERMITTING / OPTIONAL**] Create AWS CLI or AWS Console Resource
 
    Follow the instructions in the [StrongDM Cloud Resource docs](https://www.strongdm.com/docs/admin/resources/clouds/) for configuring AWS CLI and AWS Console resources, following the conventiions for resource tags above.
-
 
 # Destroying the Configuration
 
@@ -141,17 +189,3 @@ You may manually revoke sessions and delete resources from the Admin UI and AWS 
 - [StrongDM Support](https://support.strongdm.com)
 
 This walkthrough introduces key features of StrongDM and demonstrates its capabilities for simplifying and securing infrastructure access. Let us know if you have any questions or need further guidance during the workshop!
-
-# Alternate Gateway Instructions
-
-If your AWS account is not the same account as the instructor's, you will not see pre-populated StrongDM Gateways. In this case, use the following instructions to set up a new StrongDM Gateway. Full Gateway instructions are found in the [StrongDM Documentation](https://www.strongdm.com/docs/admin/nodes/ec2/).
-
-- Launch an EC2 instance from the EC2 Console in EC2 -> AMI Catalog -> Community AMIs and search for StrongDM
-  `ami-0e803fb00cdbce0e6` in `us-east-1`
-  `ami-0f018eee57158078d` in `us-west-2`
-- Setup an EC2 Security Group that allows ingress TCP/5000 from everywhere (0.0.0.0) and egress to everywhere
-- Make sure you have assigned a public IP address and Elastic IP (optional for this exercise) for this instance
-- You will pass in a `user-data` script that entails one environment variable: `SDM_ADMIN_TOKEN=`, instructor will supply the value of this token
-- In the StrongDM Admin UI, you will see a new Gateway in Networking -> Gateways
-- The Gateway's Status should turn "online" within a minute or two, if not, flag an instructor
-- Ensure that you use your new EC2 security as ingress for the resources you create above
