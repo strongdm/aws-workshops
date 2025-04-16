@@ -63,11 +63,11 @@ ___
 
 Follow these instructions to set up a new StrongDM Gateway. Full Gateway instructions are found in the [StrongDM Documentation](https://www.strongdm.com/docs/admin/nodes/sdm-ami/).
 
+- Create an EC2 Security Group that allows ingress TCP/5000 from everywhere (0.0.0.0) and egress to everywhere
+
+- Create a public Elastic IP for this instance
+
 - Launch an EC2 instance from the EC2 Console in EC2 -> AMI Catalog -> Community AMIs and search for StrongDM `ami-0e803fb00cdbce0e6` in `us-east-1` `ami-0f018eee57158078d` in `us-west-2`
-
-- Setup an EC2 Security Group that allows ingress TCP/5000 from everywhere (0.0.0.0) and egress to everywhere
-
-- Make sure you have assigned a public IP address and Elastic IP (optional for this exercise) for this instance
 
 - You will pass in a `user-data` script that entails one environment variable: `SDM_ADMIN_TOKEN=`, instructor will supply the value of this token
 
