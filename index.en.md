@@ -61,7 +61,7 @@ ___
 
 ### Setup a StrongDM Gateway
 
-Follow these instructions to set up a new StrongDM Gateway. Full Gateway instructions are found in the [StrongDM Documentation](https://www.strongdm.com/docs/admin/nodes/ec2/).
+Follow these instructions to set up a new StrongDM Gateway. Full Gateway instructions are found in the [StrongDM Documentation](https://www.strongdm.com/docs/admin/nodes/sdm-ami/).
 
 - Launch an EC2 instance from the EC2 Console in EC2 -> AMI Catalog -> Community AMIs and search for StrongDM `ami-0e803fb00cdbce0e6` in `us-east-1` `ami-0f018eee57158078d` in `us-west-2`
 
