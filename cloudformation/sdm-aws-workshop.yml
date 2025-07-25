@@ -1,0 +1,158 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: SDM Workshop Stack - region-aware AMI via mapping
+
+Parameters:
+  DefaultVPC:
+    Type: AWS::EC2::VPC::Id
+    Description: "Select the default VPC"
+
+  EC2PublicSubnet:
+    Type: AWS::EC2::Subnet::Id
+    Description: "Select a public subnet for the EC2 instance"
+
+  RDSSubnets:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: "Select exactly two subnets for the RDS DB Subnet Group"
+
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
+
+Mappings:
+  RegionMap:
+    us-east-1:
+      AmiId: ami-0bf74d3fe6e340d82
+    us-east-2:
+      AmiId: ami-0bbbe08e2b3f679ef
+    us-west-1:
+      AmiId: ami-02f1e7d6f9e956f7e
+    us-west-2:
+      AmiId: ami-03aba6f5a1589adac
+
+  UbuntuRegionMap:
+    us-east-1:
+      UbuntuAmiId: ami-020cba7c55df1f615
+    us-east-2:
+      UbuntuAmiId: ami-0d1b5a8c13042c939
+    us-west-1:
+      UbuntuAmiId: ami-014e30c8a36252ae5
+    us-west-2:
+      UbuntuAmiId: ami-05f991c49d264708f
+
+Resources:
+  SdmWorkshopSecurityGroup0:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Allows inbound TCP port 5000 from 0.0.0.0/0 (for EC2)"
+      VpcId: !Ref DefaultVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5000
+          ToPort: 5000
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+
+  SdmWorkshopSecurityGroup1:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Ubuntu EC2 - allows SSH (22) from Gateway SG only"
+      VpcId: !Ref DefaultVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          SourceSecurityGroupId: !Ref SdmWorkshopSecurityGroup0
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+
+  SdmWorkshopSecurityGroup2:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "RDS - allows TCP 5432 from Gateway SG only"
+      VpcId: !Ref DefaultVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          SourceSecurityGroupId: !Ref SdmWorkshopSecurityGroup0
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+
+  SdmWorkshopGatewayInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      KeyName: !Ref KeyName
+      InstanceType: t3.small
+      ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AmiId]
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: 0
+          SubnetId: !Ref EC2PublicSubnet
+          GroupSet:
+            - !Ref SdmWorkshopSecurityGroup0
+      UserData:
+        Fn::Base64: |
+          SDM_ADMIN_TOKEN=XXXXX
+      Tags:
+        - Key: Name
+          Value: SdmWorkshopGateway
+
+  SdmWorkshopUbuntuInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      KeyName: !Ref KeyName
+      InstanceType: t3.small
+      ImageId: !FindInMap [UbuntuRegionMap, !Ref "AWS::Region", UbuntuAmiId]
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: 0
+          SubnetId: !Ref EC2PublicSubnet
+          GroupSet:
+            - !Ref SdmWorkshopSecurityGroup1
+      Tags:
+        - Key: Name
+          Value: SdmWorkshopUbuntu
+
+  SdmWorkshopDBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: "RDS subnet group for PostgreSQL"
+      SubnetIds: !Ref RDSSubnets
+
+  SdmWorkshopRDSInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBName: sdm_workshop_db
+      Engine: postgres
+      DBInstanceClass: db.t3.micro
+      AllocatedStorage: 20
+      MasterUsername: postgres
+      MasterUserPassword: "p0stgr3s-p455w0rd-should!-be-h4rd-2-guess?"
+      VPCSecurityGroups:
+        - !Ref SdmWorkshopSecurityGroup2
+      DBSubnetGroupName: !Ref SdmWorkshopDBSubnetGroup
+      PubliclyAccessible: false
+      MultiAZ: false
+      StorageType: gp2
+      DeletionProtection: false
+      BackupRetentionPeriod: 7
+      Tags:
+        - Key: Name
+          Value: SdmWorkshopRDS
+
+Outputs:
+  GatewayInstanceId:
+    Value: !Ref SdmWorkshopGatewayInstance
+    Description: Gateway instance ID
+
+  UbuntuInstanceId:
+    Value: !Ref SdmWorkshopUbuntuInstance
+    Description: Ubuntu instance ID
+
+  RDSInstanceEndpoint:
+    Value: !GetAtt SdmWorkshopRDSInstance.Endpoint.Address
+    Description: RDS PostgreSQL endpoint
