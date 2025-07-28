@@ -51,8 +51,6 @@ ___
 
    Create a role that is unique to you, under Principals -> Roles, and assign the role to yourself be selecting "Actions" for your Username in Principals -> Users -> <Username> -> Actions -> Set Roles.
 
-   ![StrongDM Admin UI](./static/strongdm_admin_ui.png)
-
 ### Download the StrongDM Desktop app
 
    On the bottom left, click on "Download & Install" and download the StrongDM Desktop app specific to your desktop client. macOS and Windows platforms have GUI and CLI apps, Linux is CLI only. Install the Desktop App and login with the same credentials as the Admin UI.
